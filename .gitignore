@@ -1,6 +1,2 @@
 node_modules/
-package-lock.json
-package.json
-models/campground.json
-seeds/index.js
 .env
