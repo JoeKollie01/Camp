@@ -2,12 +2,6 @@ if(process.env.NODE_ENV!== "production") {
     require('dotenv').config();
 }
 
-// require('dotenv').config();
-
-
-
-console.log(process.env.CLOUDINARY_CLOUD_NAME, process.env.CLOUDINARY_KEY, process.env.CLOUD_SECRET);
-
 
 const express = require('express')
 const path = require('path');
@@ -30,7 +24,7 @@ const mongoSanitize = require('express-mongo-sanitize');
 const userRoutes = require('./routes/user.js')
 const campgroundRoutes = require('./routes/campgrounds.js');
 const reviewRoutes = require('./routes/reviews.js')
-const dbUrl = 'mongodb://localhost:27017/yelp-camp';
+const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/yelp-camp';
 
 // 
 
@@ -55,13 +49,18 @@ app.set('views', path.join(__dirname, 'views'))
 app.use(express.urlencoded({extended: true }))
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname,'public')))
-app.use(mongoSanitize());
+app.use(mongoSanitize({
+    replaceWith: '_'
+}));
+
+const secret = process.env.SECRET || 'thisshouldbeabettersecret';
+
 
 const store = MongoStore.create({
     mongoUrl: dbUrl,
     touchAfter: 24 * 60 * 60,
     crypto: {
-        secret: 'thisshouldbeabettersecret!'
+        secret
     }
 });
 
@@ -72,7 +71,7 @@ store.on("error", function(e){
 const sessionConfig = {
     store,
     name: 'session',
-    secret: 'thisshouldbeabettersecret',
+    secret,
     resave: false,
     saveUninitialized: true,
     cookie: {
@@ -177,7 +176,7 @@ app.use((err, req, res, next) => {
     res.status(statusCode).render('error', { err });
 })
 
-
-app.listen(8080, () => {
+const port = process.env.PORT || 8080;
+app.listen(port, () => {
     console.log('Serving on port 8080')
 })
