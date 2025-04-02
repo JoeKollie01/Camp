@@ -27,8 +27,8 @@ Make sure you have the following installed:
 ### Steps
 1. Clone the repository:
    ```sh
-   git clone https://github.com/yourusername/YelpCamp.git
-   cd YelpCamp
+   git clone https://github.com/JoeKollie01/Camp.git
+   cd Camp
    ```
 
 2. Install dependencies:
