@@ -82,9 +82,7 @@ YelpCamp/
 ## Contributing
 Pull requests are welcome. Please open an issue first to discuss any changes.
 
-## License
-This project is licensed under the MIT License.
 
-## Contact
-For any inquiries, reach out via email or open an issue on GitHub.
+
+
 
